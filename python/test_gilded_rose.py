@@ -4,14 +4,14 @@ import unittest
 from gilded_rose import Item, GildedRose
 
 class GildedRoseTest(unittest.TestCase):
-    def test_qty_denotion(self):
+    def test_qlty_denotion(self):
         items = [Item("Scepter of Sargeras", 20, 30)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
         self.assertEqual(19, items[0].sell_in)
         self.assertEqual(29, items[0].quality)
 
-    def test_qty_denotion_twoxfaster(self):
+    def test_qlty_denotion_twoxfaster(self):
         items = [Item("Ashbringer", 0, 30)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
@@ -42,17 +42,17 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(50, items[0].quality)
 
     def test_sulfurus(self):
-        items = [Item("Sulfuras, Hand of Ragnaros", 20, 50)]
+        items = [Item("Sulfuras, Hand of Ragnaros", 20, 80)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
         self.assertEqual(20, items[0].sell_in)
-        self.assertEqual(50, items[0].quality)
+        self.assertEqual(80, items[0].quality)
 
     def test_sulfurus_past_saleout(self):
-        items = [Item("Sulfuras, Hand of Ragnaros", 0, 50)]
+        items = [Item("Sulfuras, Hand of Ragnaros", 0, 80)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
-        self.assertEqual(50, items[0].quality)
+        self.assertEqual(80, items[0].quality)
 
     def test_backstagepass_less_than_ten_days(self):
         items = [Item("Backstage passes to a TAFKAL80ETC concert", 9, 20)]
@@ -83,6 +83,18 @@ class GildedRoseTest(unittest.TestCase):
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
         self.assertEqual(0, items[0].quality)
+
+    def test_conjured_item(self):
+        items = [Item("Conjured Item", 10, 20)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEqual(18, items[0].quality)
+
+    def test_conjured_item_double_decrease(self):
+        items = [Item("Conjured Item", 0, 20)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEqual(16, items[0].quality)
 
 
 if __name__ == '__main__':
